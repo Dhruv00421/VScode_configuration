@@ -1,0 +1,74 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile and run",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "${file}",  // Use the currently open file as the source
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "options": {
+                "cwd": "${fileDirname}"  // Set the working directory to the file's directory
+            }
+        },
+        {
+            "label": "Run and Capture Output",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "<",
+                "${workspaceFolder}/input.txt",
+                ">",
+                "${workspaceFolder}/output.txt"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "never"
+            },
+            "problemMatcher": [
+                {
+                    "owner": "cpp",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceRoot}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "severity": 4,
+                        "message": 5
+                    }
+                }
+            ],
+            "dependsOn": "Compile and run",
+            "options": {
+                "env": {
+                    "INPUT_FILE": "${workspaceFolder}/input.txt"
+                }
+            }
+        }
+    ]
+}
